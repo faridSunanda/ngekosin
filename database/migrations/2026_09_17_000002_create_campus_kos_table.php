@@ -1,0 +1,32 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('campus_kos', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('kos_id')->constrained('koses')->onDelete('cascade');
+            $table->foreignId('campus_id')->constrained('campuses')->onDelete('cascade');
+            $table->integer('distance_meters')->default(0);
+            $table->timestamps();
+
+            $table->unique(['kos_id', 'campus_id']);
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('campus_kos');
+    }
+};
