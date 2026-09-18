@@ -13,3 +13,4 @@ deployment:
     - /bin/sed -i "s#__DIR__.'/../bootstrap/app.php'#__DIR__.'/../ngekosin/bootstrap/app.php'#" /home/onevsbmm/public_html/index.php
 
     - cd /home/onevsbmm/ngekosin && /opt/cpanel/ea-php83/root/usr/bin/php artisan about > /home/onevsbmm/public_html/laravel-about.txt 2>&1
+    - cd /home/onevsbmm/ngekosin && /opt/cpanel/ea-php83/root/usr/bin/php artisan migrate --force > /home/onevsbmm/public_html/migrate-result.txt 2>&1
