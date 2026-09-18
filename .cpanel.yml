@@ -11,3 +11,5 @@ deployment:
     - /bin/sed -i "s#__DIR__.'/../storage/framework/maintenance.php'#__DIR__.'/../ngekosin/storage/framework/maintenance.php'#" /home/onevsbmm/public_html/index.php
     - /bin/sed -i "s#__DIR__.'/../vendor/autoload.php'#__DIR__.'/../ngekosin/vendor/autoload.php'#" /home/onevsbmm/public_html/index.php
     - /bin/sed -i "s#__DIR__.'/../bootstrap/app.php'#__DIR__.'/../ngekosin/bootstrap/app.php'#" /home/onevsbmm/public_html/index.php
+
+    - cd /home/onevsbmm/ngekosin && /opt/cpanel/ea-php83/root/usr/bin/php artisan about > /home/onevsbmm/public_html/laravel-about.txt 2>&1
