@@ -4,8 +4,11 @@ deployment:
     # Install dependency Laravel
     - /opt/cpanel/ea-php83/root/usr/bin/php /usr/local/bin/composer install --no-dev --optimize-autoloader --working-dir=/home/onevsbmm/ngekosin
 
-    # Copy public Laravel ke document root
+    # Copy folder public Laravel ke document root
     - /bin/cp -R public/* /home/onevsbmm/public_html/
+
+    # Copy .htaccess Laravel karena file tersembunyi tidak ikut cp public/*
+    - /bin/cp public/.htaccess /home/onevsbmm/public_html/.htaccess
 
     # Perbaiki path Laravel di index.php
     - /bin/sed -i "s#__DIR__.'/../storage/framework/maintenance.php'#__DIR__.'/../ngekosin/storage/framework/maintenance.php'#" /home/onevsbmm/public_html/index.php
