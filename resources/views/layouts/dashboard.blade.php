@@ -130,10 +130,7 @@
             <!-- Bottom Footer -->
             <footer class="bg-white border-t border-slate-200 py-4 px-6 text-center md:text-left text-xs text-slate-500 flex flex-col sm:flex-row justify-between items-center gap-2">
                 <div>
-                    © Ngekosin 2026. Hak cipta dilindungi undang-undang.
-                </div>
-                <div class="text-slate-400 text-[11px]">
-                    Ngekosin Backoffice v1.0 • Theme #20344c & #f99d18
+                    © Ngekosin 2026 By SagaraCreative. Hak cipta dilindungi undang-undang.
                 </div>
             </footer>
         </div>

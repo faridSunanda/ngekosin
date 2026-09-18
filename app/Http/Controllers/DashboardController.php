@@ -103,6 +103,13 @@ class DashboardController extends Controller
             abort(403, 'Akses khusus Pencari Kos.');
         }
 
-        return view('user.dashboard', compact('user'));
+        $recommendedKoses = Kos::with(['owner', 'campuses'])
+            ->where('status', 'active')
+            ->orderByDesc('clicks_count')
+            ->orderByDesc('views_count')
+            ->take(6)
+            ->get();
+
+        return view('user.dashboard', compact('user', 'recommendedKoses'));
     }
 }

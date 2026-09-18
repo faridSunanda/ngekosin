@@ -17,39 +17,10 @@
             </div>
         </a>
         <a href="#" 
-           class="flex items-center justify-between px-3 py-2.5 rounded-md font-medium text-xs transition {{ request()->is('user/my-kos*') ? 'bg-[#f99d18] text-white shadow-md' : 'text-slate-300 hover:bg-[#20344c] hover:text-white' }}">
-            <div class="flex items-center gap-3">
-                <x-lucide-home class="w-4 h-4 text-slate-400" />
-                <span>Kos Saya</span>
-            </div>
-            <span class="px-2 py-0.5 rounded-full bg-emerald-600 text-white text-[10px] font-bold">1 Aktif</span>
-        </a>
-        <a href="#" 
            class="flex items-center justify-between px-3 py-2.5 rounded-md font-medium text-xs transition {{ request()->is('user/favorites*') ? 'bg-[#f99d18] text-white shadow-md' : 'text-slate-300 hover:bg-[#20344c] hover:text-white' }}">
             <div class="flex items-center gap-3">
                 <x-lucide-heart class="w-4 h-4 text-rose-400" />
                 <span>Favorit Saya</span>
-            </div>
-        </a>
-    </div>
-</div>
-
-<!-- Menu Group 2: History & Billing -->
-<div>
-    <p class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-2">RIWAYAT & TAGIHAN</p>
-    <div class="space-y-1">
-        <a href="#" 
-           class="flex items-center justify-between px-3 py-2.5 rounded-md font-medium text-xs transition {{ request()->is('user/transactions*') ? 'bg-[#f99d18] text-white shadow-md' : 'text-slate-300 hover:bg-[#20344c] hover:text-white' }}">
-            <div class="flex items-center gap-3">
-                <x-lucide-receipt class="w-4 h-4 text-slate-400" />
-                <span>Riwayat Transaksi</span>
-            </div>
-        </a>
-        <a href="#" 
-           class="flex items-center justify-between px-3 py-2.5 rounded-md font-medium text-xs transition {{ request()->is('user/bills*') ? 'bg-[#f99d18] text-white shadow-md' : 'text-slate-300 hover:bg-[#20344c] hover:text-white' }}">
-            <div class="flex items-center gap-3">
-                <x-lucide-credit-card class="w-4 h-4 text-slate-400" />
-                <span>Tagihan Bulanan</span>
             </div>
         </a>
     </div>
