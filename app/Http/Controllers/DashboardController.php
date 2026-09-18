@@ -112,4 +112,35 @@ class DashboardController extends Controller
 
         return view('user.dashboard', compact('user', 'recommendedKoses'));
     }
+
+    public function userFavorites()
+    {
+        $user = Auth::user();
+        if (!$user || !$user->isUser()) {
+            abort(403, 'Akses khusus Pencari Kos.');
+        }
+
+        $allKoses = Kos::with(['owner', 'campuses'])
+            ->where('status', 'active')
+            ->latest()
+            ->get()
+            ->map(function ($kos) {
+                return [
+                    'id' => $kos->id,
+                    'name' => $kos->name,
+                    'type' => $kos->type,
+                    'thumbnail' => asset($kos->thumbnail ?: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=600&q=80'),
+                    'location' => ($kos->district ? $kos->district . ', ' : '') . $kos->city,
+                    'priceStr' => 'Rp ' . number_format($kos->price_per_month, 0, ',', '.') . ' / bln',
+                    'available_rooms' => $kos->available_rooms,
+                    'total_rooms' => $kos->total_rooms,
+                    'owner' => $kos->owner ? $kos->owner->name : 'Pemilik Kos',
+                    'ownerPhone' => $kos->owner ? $kos->owner->phone : '',
+                    'views_count' => $kos->views_count,
+                    'clicks_count' => $kos->clicks_count,
+                ];
+            });
+
+        return view('user.favorites', compact('user', 'allKoses'));
+    }
 }

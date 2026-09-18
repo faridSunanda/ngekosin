@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard/admin', [DashboardController::class, 'adminDashboard'])->name('admin.dashboard');
     Route::get('/dashboard/owner', [DashboardController::class, 'ownerDashboard'])->name('owner.dashboard');
     Route::get('/dashboard/user', [DashboardController::class, 'userDashboard'])->name('user.dashboard');
+    Route::get('/user/favorites', [DashboardController::class, 'userFavorites'])->name('user.favorites');
 
     // Admin Management Routes
     Route::get('/admin/analytics', [AnalyticsController::class, 'index'])->name('admin.analytics');

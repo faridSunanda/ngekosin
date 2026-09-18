@@ -27,7 +27,6 @@
         <div class="flex items-center justify-between mb-4">
             <div>
                 <h3 class="font-extrabold text-[#20344c] text-base flex items-center gap-2">
-                    <x-lucide-flame class="w-5 h-5 text-[#f99d18]" />
                     <span>Rekomendasi Kos Terfavorit & Paling Banyak Diminati</span>
                 </h3>
                 <p class="text-xs text-slate-500 mt-0.5">Top 6 kos dengan statistik pencarian dan interaksi WhatsApp tertinggi.</p>

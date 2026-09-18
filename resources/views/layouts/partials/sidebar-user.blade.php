@@ -16,8 +16,8 @@
                 <span>Cari Kos Impian</span>
             </div>
         </a>
-        <a href="#" 
-           class="flex items-center justify-between px-3 py-2.5 rounded-md font-medium text-xs transition {{ request()->is('user/favorites*') ? 'bg-[#f99d18] text-white shadow-md' : 'text-slate-300 hover:bg-[#20344c] hover:text-white' }}">
+        <a href="{{ route('user.favorites') }}" 
+           class="flex items-center justify-between px-3 py-2.5 rounded-md font-medium text-xs transition {{ request()->routeIs('user.favorites') ? 'bg-[#f99d18] text-white shadow-md' : 'text-slate-300 hover:bg-[#20344c] hover:text-white' }}">
             <div class="flex items-center gap-3">
                 <x-lucide-heart class="w-4 h-4 text-rose-400" />
                 <span>Favorit Saya</span>
