@@ -2,7 +2,12 @@
 deployment:
   tasks:
 
-    # Composer dengan PHP 8.3
+    # DEBUG
+    - /opt/cpanel/ea-php83/root/usr/bin/php -v
+    - /usr/local/bin/composer --version
+    - /opt/cpanel/ea-php83/root/usr/bin/php /usr/local/bin/composer check-platform-reqs --working-dir=/home/onevsbmm/ngekosin > /home/onevsbmm/public_html/platform-check.txt 2>&1
+
+    # Composer
     - /opt/cpanel/ea-php83/root/usr/bin/php /usr/local/bin/composer install --no-dev --optimize-autoloader --working-dir=/home/onevsbmm/ngekosin
 
     # Copy Laravel public
