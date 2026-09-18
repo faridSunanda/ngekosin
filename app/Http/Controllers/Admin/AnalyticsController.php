@@ -67,6 +67,31 @@ class AnalyticsController extends Controller
             ->take(5)
             ->get();
 
+        // Monthly Trend Data (Last 6 Months)
+        $monthlyLabels = [];
+        $monthlyViewsData = [];
+        $monthlyClicksData = [];
+
+        for ($i = 5; $i >= 0; $i--) {
+            $monthDate = now()->subMonths($i);
+            $monthlyLabels[] = $monthDate->isoFormat('MMM');
+
+            $kosUpToMonth = Kos::where('created_at', '<=', $monthDate->copy()->endOfMonth())->get();
+            $viewsCount = $kosUpToMonth->sum('views_count');
+            $clicksCount = $kosUpToMonth->sum('clicks_count');
+
+            $monthlyLabels[] = $monthDate->isoFormat('MMM');
+            $monthlyViewsData[] = (int) $viewsCount;
+            $monthlyClicksData[] = (int) $clicksCount;
+        }
+
+        // Deduplicate month labels from the loop
+        $monthlyLabels = [];
+        for ($i = 5; $i >= 0; $i--) {
+            $monthDate = now()->subMonths($i);
+            $monthlyLabels[] = $monthDate->isoFormat('MMM');
+        }
+
         return view('admin.analytics.index', compact(
             'totalKos',
             'activeKos',
@@ -84,7 +109,10 @@ class AnalyticsController extends Controller
             'typeData',
             'topKosByClicks',
             'topKosByViews',
-            'cityBreakdown'
+            'cityBreakdown',
+            'monthlyLabels',
+            'monthlyViewsData',
+            'monthlyClicksData'
         ));
     }
 }

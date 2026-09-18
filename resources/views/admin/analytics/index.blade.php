@@ -259,18 +259,11 @@
             new Chart(ctxTrend, {
                 type: 'line',
                 data: {
-                    labels: ['Apr', 'Mei', 'Jun', 'Jul', 'Agt', 'Sep'],
+                    labels: {!! json_encode($monthlyLabels) !!},
                     datasets: [
                         {
                             label: 'Views (Pencarian)',
-                            data: [
-                                Math.round({{ $totalViews }} * 0.3),
-                                Math.round({{ $totalViews }} * 0.45),
-                                Math.round({{ $totalViews }} * 0.6),
-                                Math.round({{ $totalViews }} * 0.75),
-                                Math.round({{ $totalViews }} * 0.9),
-                                {{ $totalViews }}
-                            ],
+                            data: {!! json_encode($monthlyViewsData) !!},
                             borderColor: '#38bdf8',
                             backgroundColor: 'rgba(56, 189, 248, 0.1)',
                             borderWidth: 3,
@@ -281,14 +274,7 @@
                         },
                         {
                             label: 'Inquiry / Klik WA',
-                            data: [
-                                Math.round({{ $totalClicks }} * 0.25),
-                                Math.round({{ $totalClicks }} * 0.4),
-                                Math.round({{ $totalClicks }} * 0.55),
-                                Math.round({{ $totalClicks }} * 0.7),
-                                Math.round({{ $totalClicks }} * 0.85),
-                                {{ $totalClicks }}
-                            ],
+                            data: {!! json_encode($monthlyClicksData) !!},
                             borderColor: '#10b981',
                             backgroundColor: 'rgba(16, 185, 129, 0.1)',
                             borderWidth: 3,
