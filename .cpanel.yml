@@ -1,8 +1,8 @@
 ---
 deployment:
   tasks:
-    - /bin/sh -c "command -v composer > /home/onevsbmm/public_html/composer-check.txt 2>&1 || true"
-    - /bin/sh -c "php -v >> /home/onevsbmm/public_html/composer-check.txt 2>&1 || true"
+    - /bin/sh -c "/opt/cpanel/ea-php83/root/usr/bin/php -v > /home/onevsbmm/public_html/php83-check.txt 2>&1 || true"
+    - /bin/sh -c "/opt/cpanel/ea-php83/root/usr/bin/php /usr/local/bin/composer --version >> /home/onevsbmm/public_html/php83-check.txt 2>&1 || true"
 
 # ---
 # deployment:
