@@ -1,4 +1,12 @@
 ---
 deployment:
   tasks:
-    - /bin/cp -R public/* /home/onevsbmm/public_html/
+    - /usr/bin/which composer > /home/onevsbmm/composer-path.txt
+
+# ---
+# deployment:
+#   tasks:
+#     - /bin/cp -R public/* /home/onevsbmm/public_html/
+#     - /bin/sed -i "s#__DIR__.'/../storage/framework/maintenance.php'#__DIR__.'/../ngekosin/storage/framework/maintenance.php'#" /home/onevsbmm/public_html/index.php
+#     - /bin/sed -i "s#__DIR__.'/../vendor/autoload.php'#__DIR__.'/../ngekosin/vendor/autoload.php'#" /home/onevsbmm/public_html/index.php
+#     - /bin/sed -i "s#__DIR__.'/../bootstrap/app.php'#__DIR__.'/../ngekosin/bootstrap/app.php'#" /home/onevsbmm/public_html/index.php
