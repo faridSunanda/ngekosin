@@ -1,7 +1,8 @@
 ---
 deployment:
   tasks:
-    - /usr/bin/which composer > /home/onevsbmm/composer-path.txt
+    - /bin/sh -c "command -v composer > /home/onevsbmm/public_html/composer-check.txt 2>&1 || true"
+    - /bin/sh -c "php -v >> /home/onevsbmm/public_html/composer-check.txt 2>&1 || true"
 
 # ---
 # deployment:
