@@ -59,7 +59,7 @@
                             <span class="text-xl font-bold tracking-tight text-white flex items-center gap-1">
                                 Ngekosin<span class="text-[#f99d18]">.</span>
                             </span>
-                            <span class="text-[10px] text-gray-300 -mt-1 font-medium tracking-wide">Hub for Kos & Living</span>
+                            <span class="text-[10px] text-gray-300 -mt-1 font-medium tracking-wide">Cari kos, Nggak pake ribet</span>
                         </div>
                     </a>
 
