@@ -87,6 +87,10 @@ class KosController extends Controller
             'campuses.*.distance_meters' => 'nullable|integer|min:0',
         ]);
 
+        if (auth()->user()->isOwner()) {
+            $validated['user_id'] = auth()->id();
+        }
+
         $validated['allow_two_people'] = $request->has('allow_two_people');
 
         if (!$validated['allow_two_people']) {
@@ -127,7 +131,8 @@ class KosController extends Controller
             $kos->campuses()->sync($syncData);
         }
 
-        return redirect()->route('admin.kos.index')->with('success', 'Properti Kos berhasil ditambahkan!');
+        $redirectRoute = auth()->user()->isOwner() ? route('owner.dashboard') : route('admin.kos.index');
+        return redirect($redirectRoute)->with('success', 'Properti Kos berhasil ditambahkan!');
     }
 
     /**
@@ -135,6 +140,10 @@ class KosController extends Controller
      */
     public function edit(Kos $ko)
     {
+        if (auth()->user()->isOwner() && $ko->user_id !== auth()->id()) {
+            abort(403, 'Anda tidak memiliki akses untuk mengedit kos ini.');
+        }
+
         $ko->load('campuses');
         $owners = User::where('role', 'owner')->get();
         $campuses = Campus::orderBy('name')->get();
@@ -147,6 +156,10 @@ class KosController extends Controller
      */
     public function update(Request $request, Kos $ko)
     {
+        if (auth()->user()->isOwner() && $ko->user_id !== auth()->id()) {
+            abort(403, 'Anda tidak memiliki akses untuk mengedit kos ini.');
+        }
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'user_id' => 'nullable|exists:users,id',
@@ -174,6 +187,10 @@ class KosController extends Controller
             'campuses.*.campus_id' => 'nullable|exists:campuses,id',
             'campuses.*.distance_meters' => 'nullable|integer|min:0',
         ]);
+
+        if (auth()->user()->isOwner()) {
+            $validated['user_id'] = auth()->id();
+        }
 
         $validated['allow_two_people'] = $request->has('allow_two_people');
 
@@ -230,7 +247,8 @@ class KosController extends Controller
         }
         $ko->campuses()->sync($syncData);
 
-        return redirect()->route('admin.kos.index')->with('success', 'Data Properti Kos berhasil diperbarui!');
+        $redirectRoute = auth()->user()->isOwner() ? route('owner.dashboard') : route('admin.kos.index');
+        return redirect($redirectRoute)->with('success', 'Data Properti Kos berhasil diperbarui!');
     }
 
     /**
@@ -238,11 +256,17 @@ class KosController extends Controller
      */
     public function destroy(Kos $ko)
     {
+        if (auth()->user()->isOwner() && $ko->user_id !== auth()->id()) {
+            abort(403, 'Anda tidak memiliki akses untuk menghapus kos ini.');
+        }
+
         if ($ko->thumbnail && Str::startsWith($ko->thumbnail, 'storage/')) {
             Storage::disk('public')->delete(str_replace('storage/', '', $ko->thumbnail));
         }
         $ko->delete();
-        return redirect()->route('admin.kos.index')->with('success', 'Properti Kos berhasil dihapus!');
+
+        $redirectRoute = auth()->user()->isOwner() ? route('owner.dashboard') : route('admin.kos.index');
+        return redirect($redirectRoute)->with('success', 'Properti Kos berhasil dihapus!');
     }
 
     /**
@@ -250,6 +274,10 @@ class KosController extends Controller
      */
     public function quickUpdateRooms(Request $request, Kos $ko)
     {
+        if (auth()->user()->isOwner() && $ko->user_id !== auth()->id()) {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
+        }
+
         $validated = $request->validate([
             'action' => 'required|in:increment,decrement',
         ]);

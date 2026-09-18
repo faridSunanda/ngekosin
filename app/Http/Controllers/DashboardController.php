@@ -69,7 +69,31 @@ class DashboardController extends Controller
             abort(403, 'Akses khusus Pemilik Kos.');
         }
 
-        return view('owner.dashboard', compact('user'));
+        $ownerKoses = Kos::where('user_id', $user->id)
+            ->with(['campuses'])
+            ->latest()
+            ->get();
+
+        $totalKos = $ownerKoses->count();
+        $totalRooms = (int) $ownerKoses->sum('total_rooms');
+        $availableRooms = (int) $ownerKoses->sum('available_rooms');
+        $occupiedRooms = max(0, $totalRooms - $availableRooms);
+        $occupancyRate = $totalRooms > 0 ? round(($occupiedRooms / $totalRooms) * 100) : 0;
+
+        $totalViews = (int) $ownerKoses->sum('views_count');
+        $totalClicks = (int) $ownerKoses->sum('clicks_count');
+
+        return view('owner.dashboard', compact(
+            'user',
+            'ownerKoses',
+            'totalKos',
+            'totalRooms',
+            'availableRooms',
+            'occupiedRooms',
+            'occupancyRate',
+            'totalViews',
+            'totalClicks'
+        ));
     }
 
     public function userDashboard()

@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('title', 'Tambah Properti Kos Baru')
-@section('portal_name', 'Admin Panel')
+@section('portal_name', Auth::user()->isOwner() ? 'Owner Portal' : 'Admin Panel')
 @section('breadcrumb_current', 'Tambah Kos')
 
 @section('content')
@@ -12,7 +12,7 @@
                 <h1 class="text-2xl font-extrabold text-[#20344c]">Tambah Properti Kos Baru</h1>
                 <p class="text-xs text-slate-500 mt-1">Lengkapi informasi properti kos untuk dipublikasikan di Ngekosin.</p>
             </div>
-            <a href="{{ route('admin.kos.index') }}" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-md transition flex items-center gap-1.5">
+            <a href="{{ Auth::user()->isOwner() ? route('owner.dashboard') : route('admin.kos.index') }}" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-md transition flex items-center gap-1.5">
                 <x-lucide-arrow-left class="w-4 h-4" />
                 <span>Kembali</span>
             </a>
@@ -38,18 +38,22 @@
                             @error('name') <span class="text-[11px] text-red-500 font-medium">{{ $message }}</span> @enderror
                         </div>
 
-                        <div>
-                            <label class="block text-xs font-bold text-[#20344c] mb-1">Pemilik Kos (Owner)</label>
-                            <select name="user_id" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-md text-xs focus:outline-none focus:border-[#f99d18] text-[#20344c]">
-                                <option value="">-- Pilih Owner (Atau Admin Default) --</option>
-                                @foreach ($owners as $owner)
-                                    <option value="{{ $owner->id }}" {{ old('user_id') == $owner->id ? 'selected' : '' }}>
-                                        {{ $owner->name }} ({{ $owner->phone }})
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('user_id') <span class="text-[11px] text-red-500 font-medium">{{ $message }}</span> @enderror
-                        </div>
+                        @if (Auth::user()->isOwner())
+                            <input type="hidden" name="user_id" value="{{ Auth::id() }}">
+                        @else
+                            <div>
+                                <label class="block text-xs font-bold text-[#20344c] mb-1">Pemilik Kos (Owner)</label>
+                                <select name="user_id" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-md text-xs focus:outline-none focus:border-[#f99d18] text-[#20344c]">
+                                    <option value="">-- Pilih Owner (Atau Admin Default) --</option>
+                                    @foreach ($owners as $owner)
+                                        <option value="{{ $owner->id }}" {{ old('user_id') == $owner->id ? 'selected' : '' }}>
+                                            {{ $owner->name }} ({{ $owner->phone }})
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('user_id') <span class="text-[11px] text-red-500 font-medium">{{ $message }}</span> @enderror
+                            </div>
+                        @endif
 
                         <div>
                             <label class="block text-xs font-bold text-[#20344c] mb-1">Tipe Penghuni Kos <span class="text-red-500">*</span></label>

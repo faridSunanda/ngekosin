@@ -20,7 +20,7 @@
     <div class="flex flex-1 min-h-screen relative overflow-x-hidden">
 
         <!-- Sidebar -->
-        <aside id="sidebar" class="w-64 bg-[#182739] text-white flex flex-col fixed inset-y-0 left-0 z-40 sidebar-transition shadow-xl border-r border-[#20344c]">
+        <aside id="sidebar" class="{{ Auth::check() && Auth::user()->isOwner() ? 'hidden md:flex' : 'flex' }} w-64 bg-[#182739] text-white flex-col fixed inset-y-0 left-0 z-40 sidebar-transition shadow-xl border-r border-[#20344c]">
             <!-- Sidebar Header / Brand Logo -->
             <div class="h-16 px-5 flex items-center justify-between border-b border-[#24374e] bg-[#142131]">
                 <a href="{{ route('home') }}" class="flex items-center gap-2.5 font-bold text-lg text-white">
@@ -77,10 +77,20 @@
             <!-- Top Header Navbar -->
             <header class="bg-white border-b border-slate-200 h-16 sticky top-0 z-20 flex items-center justify-between px-4 sm:px-6 shadow-sm">
                 <!-- Left: Toggle Sidebar + Breadcrumb -->
-                <div class="flex items-center gap-4">
-                    <button id="toggle-sidebar" class="p-2 rounded-md text-slate-600 hover:bg-slate-100 hover:text-[#20344c] transition focus:outline-none">
-                        <x-lucide-menu class="w-5 h-5" />
-                    </button>
+                <div class="flex items-center gap-3">
+                    @if (Auth::check() && Auth::user()->isOwner())
+                        <button id="toggle-sidebar" class="hidden md:block p-2 rounded-md text-slate-600 hover:bg-slate-100 hover:text-[#20344c] transition focus:outline-none">
+                            <x-lucide-menu class="w-5 h-5" />
+                        </button>
+                        <a href="{{ route('owner.dashboard') }}" class="md:hidden flex items-center gap-2 font-extrabold text-sm text-[#20344c]">
+                            <img src="{{ asset('images/logo.png') }}" class="w-7 h-7 rounded" alt="Logo">
+                            <span>Ngekosin Owner</span>
+                        </a>
+                    @else
+                        <button id="toggle-sidebar" class="p-2 rounded-md text-slate-600 hover:bg-slate-100 hover:text-[#20344c] transition focus:outline-none">
+                            <x-lucide-menu class="w-5 h-5" />
+                        </button>
+                    @endif
 
                     <nav class="hidden sm:flex items-center gap-2 text-xs text-slate-500 font-medium">
                         <a href="{{ route('home') }}" class="hover:text-[#f99d18] flex items-center gap-1 transition">
@@ -90,6 +100,25 @@
                         <x-lucide-chevron-right class="w-3.5 h-3.5 text-slate-300" />
                         <span class="text-[#20344c] font-bold">@yield('breadcrumb_current', 'Dashboard')</span>
                     </nav>
+                </div>
+
+                <!-- Right: Quick User Info & Logout Button -->
+                <div class="md:hidden flex items-center gap-3">
+                    @if (Auth::check())
+                        <div class="flex items-center gap-2">
+                            <div class="text-right text-xs hidden sm:block">
+                                <p class="font-bold text-[#20344c]">{{ Auth::user()->name }}</p>
+                                <p class="text-[10px] text-slate-400 capitalize">{{ Auth::user()->role }}</p>
+                            </div>
+                            <form action="{{ route('logout') }}" method="POST" class="inline">
+                                @csrf
+                                <button type="submit" class="p-2 text-rose-600 hover:bg-rose-50 rounded-lg transition flex items-center gap-1.5 text-xs font-bold" title="Logout">
+                                    <x-lucide-door-open class="w-4 h-4" />
+                                    <span class="text-xs">Keluar</span>
+                                </button>
+                            </form>
+                        </div>
+                    @endif
                 </div>
             </header>
 
