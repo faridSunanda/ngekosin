@@ -1,13 +1,14 @@
 ---
 deployment:
   tasks:
-    # Install dependency Laravel
+
+    # Composer dengan PHP 8.3
     - /opt/cpanel/ea-php83/root/usr/bin/php /usr/local/bin/composer install --no-dev --optimize-autoloader --working-dir=/home/onevsbmm/ngekosin
 
-    # Copy folder public Laravel ke document root
+    # Copy Laravel public
     - /bin/cp -R public/* /home/onevsbmm/public_html/
 
-    # Copy .htaccess Laravel karena file tersembunyi tidak ikut cp public/*
+    # Copy .htaccess Laravel
     - /bin/cp public/.htaccess /home/onevsbmm/public_html/.htaccess
 
     # Perbaiki path Laravel di index.php
@@ -15,11 +16,11 @@ deployment:
     - /bin/sed -i "s#__DIR__.'/../vendor/autoload.php'#__DIR__.'/../ngekosin/vendor/autoload.php'#" /home/onevsbmm/public_html/index.php
     - /bin/sed -i "s#__DIR__.'/../bootstrap/app.php'#__DIR__.'/../ngekosin/bootstrap/app.php'#" /home/onevsbmm/public_html/index.php
 
-    # Migration
+    # Migration dengan PHP 8.3
     - cd /home/onevsbmm/ngekosin && /opt/cpanel/ea-php83/root/usr/bin/php artisan migrate --force
 
-    # Seeder
+    # Seeder dengan PHP 8.3
     - cd /home/onevsbmm/ngekosin && /opt/cpanel/ea-php83/root/usr/bin/php artisan db:seed --force
 
-    # Storage link
+    # Storage link dengan PHP 8.3
     - cd /home/onevsbmm/ngekosin && /opt/cpanel/ea-php83/root/usr/bin/php artisan storage:link
