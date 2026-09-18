@@ -29,12 +29,16 @@ use App\Http\Controllers\Admin\OwnerController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AnalyticsController;
 
+use App\Http\Controllers\ProfileController;
+
 // Role Protected Dashboard & Feature Routes
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard/admin', [DashboardController::class, 'adminDashboard'])->name('admin.dashboard');
     Route::get('/dashboard/owner', [DashboardController::class, 'ownerDashboard'])->name('owner.dashboard');
     Route::get('/dashboard/user', [DashboardController::class, 'userDashboard'])->name('user.dashboard');
     Route::get('/user/favorites', [DashboardController::class, 'userFavorites'])->name('user.favorites');
+    Route::get('/user/profile', [ProfileController::class, 'show'])->name('user.profile');
+    Route::put('/user/profile', [ProfileController::class, 'update'])->name('user.profile.update');
 
     // Admin Management Routes
     Route::get('/admin/analytics', [AnalyticsController::class, 'index'])->name('admin.analytics');
