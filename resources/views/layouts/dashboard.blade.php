@@ -20,7 +20,7 @@
     <div class="flex flex-1 min-h-screen relative overflow-x-hidden">
 
         <!-- Sidebar -->
-        <aside id="sidebar" class="{{ Auth::check() && Auth::user()->isOwner() ? 'hidden md:flex' : 'flex' }} w-64 bg-[#182739] text-white flex-col fixed inset-y-0 left-0 z-40 sidebar-transition shadow-xl border-r border-[#20344c]">
+        <aside id="sidebar" class="flex w-64 bg-[#182739] text-white flex-col fixed inset-y-0 left-0 z-40 sidebar-transition shadow-xl border-r border-[#20344c] -translate-x-full md:translate-x-0">
             <!-- Sidebar Header / Brand Logo -->
             <div class="h-16 px-5 flex items-center justify-between border-b border-[#24374e] bg-[#142131]">
                 <a href="{{ route('home') }}" class="flex items-center gap-2.5 font-bold text-lg text-white">
@@ -32,7 +32,7 @@
                         <span class="text-[10px] text-[#f99d18] uppercase tracking-wider font-semibold">@yield('portal_name', 'Backoffice')</span>
                     </div>
                 </a>
-                <button id="close-sidebar-mobile" class="md:hidden text-gray-400 hover:text-white p-1">
+                <button id="close-sidebar-mobile" class="md:hidden text-gray-400 hover:text-white p-1 focus:outline-none">
                     <x-lucide-x class="w-5 h-5" />
                 </button>
             </div>
@@ -78,19 +78,14 @@
             <header class="bg-white border-b border-slate-200 h-16 sticky top-0 z-20 flex items-center justify-between px-4 sm:px-6 shadow-sm">
                 <!-- Left: Toggle Sidebar + Breadcrumb -->
                 <div class="flex items-center gap-3">
-                    @if (Auth::check() && Auth::user()->isOwner())
-                        <button id="toggle-sidebar" class="hidden md:block p-2 rounded-md text-slate-600 hover:bg-slate-100 hover:text-[#20344c] transition focus:outline-none">
-                            <x-lucide-menu class="w-5 h-5" />
-                        </button>
-                        <a href="{{ route('owner.dashboard') }}" class="md:hidden flex items-center gap-2 font-extrabold text-sm text-[#20344c]">
-                            <img src="{{ asset('images/logo.png') }}" class="w-7 h-7 rounded" alt="Logo">
-                            <span>Ngekosin Owner</span>
-                        </a>
-                    @else
-                        <button id="toggle-sidebar" class="p-2 rounded-md text-slate-600 hover:bg-slate-100 hover:text-[#20344c] transition focus:outline-none">
-                            <x-lucide-menu class="w-5 h-5" />
-                        </button>
-                    @endif
+                    <button id="toggle-sidebar" class="p-2 rounded-md text-slate-600 hover:bg-slate-100 hover:text-[#20344c] transition focus:outline-none" aria-label="Toggle Sidebar">
+                        <x-lucide-menu class="w-5 h-5" />
+                    </button>
+                    
+                    <a href="{{ route('home') }}" class="md:hidden flex items-center gap-2 font-extrabold text-sm text-[#20344c]">
+                        <img src="{{ asset('images/logo.png') }}" class="w-7 h-7 rounded" alt="Logo">
+                        <span>Ngekosin</span>
+                    </a>
 
                     <nav class="hidden sm:flex items-center gap-2 text-xs text-slate-500 font-medium">
                         <a href="{{ route('home') }}" class="hover:text-[#f99d18] flex items-center gap-1 transition">
@@ -150,6 +145,7 @@
 
             function toggleSidebar() {
                 if (window.innerWidth < 768) {
+                    sidebar.style.transform = '';
                     sidebar.classList.toggle('-translate-x-full');
                     overlay.classList.toggle('hidden');
                 } else {
@@ -169,6 +165,15 @@
             toggleBtn?.addEventListener('click', toggleSidebar);
             closeBtn?.addEventListener('click', toggleSidebar);
             overlay?.addEventListener('click', toggleSidebar);
+
+            sidebar?.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth < 768 && !sidebar.classList.contains('-translate-x-full')) {
+                        sidebar.classList.add('-translate-x-full');
+                        overlay.classList.add('hidden');
+                    }
+                });
+            });
         });
     </script>
 </body>
